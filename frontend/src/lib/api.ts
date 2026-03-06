@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8000/api";
+const API_BASE = "https://railsaathi.onrender.com";
 
 export async function fetchCrowdPrediction(station: string, train_type: string) {
     try {

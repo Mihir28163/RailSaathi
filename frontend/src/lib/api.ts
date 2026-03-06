@@ -1,4 +1,4 @@
-const API_BASE = "https://railsaathi.onrender.com";
+const API_BASE = "https://railsaathi.onrender.com/apigit";
 
 export async function fetchCrowdPrediction(station: string, train_type: string) {
     try {

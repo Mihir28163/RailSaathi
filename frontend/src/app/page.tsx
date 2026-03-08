@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Activity, Clock, Map, ChevronLeft, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, Activity, Clock, Map, ChevronLeft, User } from 'lucide-react';
+import { Navigation } from '../components/Navigation';
+import MobilityIntelligence from '../components/MobilityIntelligence';
+import PredictiveComfortAnalytics from '../components/PredictiveComfortAnalytics';
+import CommuteProfile from '../components/CommuteProfile';
+import RealTimeTransitIntelligence from '../components/RealTimeTransitIntelligence';
+import SmartAlertSystem from '../components/SmartAlertSystem';
+import MobilityAnalyticsDashboard from '../components/MobilityAnalyticsDashboard';
 import CrowdCoach from '../components/CrowdCoach';
 import DelayCoach from '../components/DelayCoach';
 import SmartTimeCoach from '../components/SmartTimeCoach';
@@ -18,43 +25,25 @@ const STRESS_INDEX_BG = "https://images.livemint.com/img/2022/09/04/original/Mum
 const CROWD_DENSITY_BG = "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202506/mumbai-local-train-094434938-16x9_0.jpg?VersionId=u6n8u87hbncXWQssI0XJ7E.r_G.VADe5&size=690:388";
 const OPTIMAL_ROUTES_BG = "https://images.pexels.com/photos/4805704/pexels-photo-4805704.jpeg?cs=srgb&dl=pexels-bala-4805704.jpg&fm=jpg";
 
-// Ambient local train sound (placeholder free sound)
-const TRAIN_AUDIO_URL = "https://cdn.pixabay.com/download/audio/2022/10/30/audio_510de1fdcd.mp3?filename=train-pass-by-01-122978.mp3";
-
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [activeCoach, setActiveCoach] = useState<number | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const coaches = [
-    { id: 1, title: 'Commute Profile', icon: Activity, description: 'Personalized route analysis', bg: COMPARTMENT_BG },
-    { id: 2, title: 'Optimal Routes', icon: Map, description: 'Multi-objective pathing', bg: OPTIMAL_ROUTES_BG },
-    { id: 3, title: 'Seat Probability', icon: Activity, description: 'Likelihood of scoring a seat', bg: SEAT_PROBABILITY_BG },
-    { id: 4, title: 'Stress Index', icon: Activity, description: 'Commuter tension analysis', bg: STRESS_INDEX_BG },
-    { id: 5, title: 'Crowd Density', icon: Activity, description: 'Live platform crowding', bg: CROWD_DENSITY_BG },
+    { id: 1, title: 'Mobility Intelligence', icon: Map, description: 'Smart route optimization with ML', bg: OPTIMAL_ROUTES_BG },
+    { id: 2, title: 'Predictive Comfort Analytics', icon: Activity, description: 'Unified comfort predictions', bg: COMPARTMENT_BG },
+    { id: 3, title: 'Commute Profile', icon: Activity, description: 'Personalized travel insights', bg: COMPARTMENT_BG },
+    { id: 4, title: 'Real Time Transit Intelligence', icon: Clock, description: 'Live transit monitoring', bg: CROWD_DENSITY_BG },
+    { id: 5, title: 'Smart Alert System', icon: Activity, description: 'Intelligent notifications', bg: STRESS_INDEX_BG },
+    { id: 6, title: 'Mobility Analytics Dashboard', icon: Activity, description: 'Comprehensive analytics', bg: SEAT_PROBABILITY_BG },
   ];
-
-  // Initialize and manage audio
-  useEffect(() => {
-    if (!audioRef.current) {
-      audioRef.current = new Audio(TRAIN_AUDIO_URL);
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.15;
-    }
-
-    if (hasEntered && !isMuted) {
-      audioRef.current.play().catch(e => console.log("Audio autoplay blocked by browser:", e));
-    } else {
-      audioRef.current.pause();
-    }
-  }, [hasEntered, isMuted]);
 
   // Use a single clear background for both screens
   const currentBg = "https://static.toiimg.com/photo/msid-104951887,width-96,height-65.cms";
 
   return (
     <main className="relative min-h-screen bg-[#050505] overflow-hidden">
+      <Navigation currentPage="Home" />
       {/* Dynamic Background with crossfade and subtle motion accents */}
       <AnimatePresence>
         <motion.div
@@ -100,7 +89,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 1 }}
-              className="text-center max-w-3xl mx-auto px-6 py-10 bg-black/65 rounded-3xl shadow-[0_24px_80px_rgba(0,0,0,0.9)] border border-white/15"
+              className="text-center max-w-3xl mx-auto px-6 py-10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-[0_32px_120px_rgba(0,0,0,0.8)] border border-white/10"
             >
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-5 leading-tight drop-shadow-[0_10px_40px_rgba(0,0,0,0.9)]">
                 Rail
@@ -144,13 +133,6 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center gap-8">
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="text-white/50 hover:text-white transition-colors"
-                  title="Toggle Ambient Sounds"
-                >
-                  {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-                </button>
                 <button
                   onClick={() => {
                     setHasEntered(false);
@@ -241,11 +223,12 @@ export default function Home() {
                     </div>
 
                     <div className="flex-1 flex items-center justify-center overflow-y-auto">
-                      {activeCoach === 1 && <div className="text-white/50 text-sm tracking-widest uppercase">Commute Profile Engine [In Development]</div>}
-                      {activeCoach === 2 && <SmartTimeCoach />} {/* Repurposed optimal routes */}
-                      {activeCoach === 3 && <SeatCoach />}
-                      {activeCoach === 4 && <StressCoach />}
-                      {activeCoach === 5 && <CrowdCoach />}
+                      {activeCoach === 1 && <MobilityIntelligence />}
+                      {activeCoach === 2 && <PredictiveComfortAnalytics />}
+                      {activeCoach === 3 && <CommuteProfile />}
+                      {activeCoach === 4 && <RealTimeTransitIntelligence />}
+                      {activeCoach === 5 && <SmartAlertSystem />}
+                      {activeCoach === 6 && <MobilityAnalyticsDashboard />}
                     </div>
                   </div>
                 </motion.div>

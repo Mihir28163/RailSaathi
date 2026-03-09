@@ -182,7 +182,7 @@ const CommuteProfile: React.FC = () => {
     if (chatMessage.trim() && currentChatRoom) {
       const newMessage: ChatMessage = {
         id: Date.now().toString(),
-        user_id: user?.id || 'current',
+        user_id: user?.id?.toString() || 'current',
         user_name: user?.email?.split('@')[0] || 'You',
         message: chatMessage,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

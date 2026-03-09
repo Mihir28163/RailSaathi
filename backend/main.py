@@ -25,17 +25,7 @@ def read_root():
 
 # Import routers after app initialization to avoid circular imports
 from api.routes import router as api_router
-from api.auth_routes import router as auth_router
-from api.mobility_routes import router as mobility_router
-from api.comfort_routes import router as comfort_router
-from api.transit_routes import router as transit_router
-from api.alert_routes import router as alert_router
 app.include_router(api_router, prefix="/api")
-app.include_router(auth_router, prefix="/api")
-app.include_router(mobility_router, prefix="/api")
-app.include_router(comfort_router, prefix="/api")
-app.include_router(transit_router, prefix="/api")
-app.include_router(alert_router, prefix="/api")
 
 if __name__ == "__main__":
     import uvicorn

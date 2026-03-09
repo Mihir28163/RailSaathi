@@ -17,7 +17,7 @@ interface TravelHistory {
 
 interface ChatMessage {
   id: string;
-  user_id: string;
+  user_id: number | string;
   user_name: string;
   message: string;
   timestamp: string;
@@ -450,8 +450,8 @@ const CommuteProfile: React.FC = () => {
 
                 <div className="h-64 overflow-y-auto space-y-3 p-4 bg-white/5 rounded-lg border border-white/10">
                   {chatMessages.map((msg) => (
-                    <div key={msg.id} className={`flex ${msg.user_id === user?.id ? 'justify-end' : 'justify-start'}`}>
-                      <div className={`max-w-xs ${msg.user_id === user?.id ? 'bg-blue-600' : 'bg-white/10'} rounded-lg p-3`}>
+                    <div key={msg.id} className={`flex ${msg.user_id == user?.id ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-xs ${msg.user_id == user?.id ? 'bg-blue-600' : 'bg-white/10'} rounded-lg p-3`}>
                         <div className="text-xs text-gray-300 mb-1">{msg.user_name}</div>
                         <div className="text-white text-sm">{msg.message}</div>
                         <div className="text-xs text-gray-400 mt-1">{msg.timestamp}</div>

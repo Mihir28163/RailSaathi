@@ -71,10 +71,17 @@ const PredictiveComfortAnalytics: React.FC = () => {
 
     try {
       const response = await fetchComfortPrediction(station, time, trainType);
-      if (response) {
-        setCurrentData(response);
-        setTimeSeriesData(generateTimeSeriesData(response));
-      } else {
+
+if (response) {
+  const formattedData: ComfortData = {
+    crowd_level: response.crowd_level || 0,
+    seat_probability: response.seat_probability || 0,
+    stress_index: response.stress_index || 0
+  };
+
+  setCurrentData(formattedData);
+  setTimeSeriesData(generateTimeSeriesData(formattedData));
+} else {
         setError('Unable to get comfort predictions. Please try again.');
       }
     } catch (err) {

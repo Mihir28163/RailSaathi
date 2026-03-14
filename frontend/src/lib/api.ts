@@ -274,9 +274,9 @@ export async function fetchComfortPrediction(station: string, time: string, trai
         const stress = await stressRes.json();
 
         return {
-            crowd,
-            seat,
-            stress
+            crowd_level: crowd.crowd_level || crowd.crowd || 0,
+            seat_probability: seat.seat_probability || seat.seat || 0,
+            stress_index: stress.stress_index || stress.stress || 0
         };
 
     } catch (error) {
